@@ -37,48 +37,20 @@ async function cargarSeries() {
   // Guardar prefs
   savePrefs({ sort: sortVal, order: orderVal, q });
 
-  // "progreso" y "estado" se ordenan en cliente
-  const clientSort = sortVal === "progreso" || sortVal === "estado";
-  const apiSort = clientSort ? "id" : sortVal;
-
   const params = {
     page:  currentPage,
-    limit: clientSort ? 999 : limit,
+    limit,
     q,
-    sort:  apiSort,
+    sort:  sortVal,
     order: orderVal,
   };
-
-  // Orden de estados para sorting
-  const estadoOrder = { pendiente: 0, viendo: 1, completada: 2 };
 
   try {
     const { data, total } = await getSeries(params);
 
-    let resultado = data;
-
-    if (clientSort) {
-      resultado = data.slice().sort((a, b) => {
-        if (sortVal === "progreso") {
-          const pctA = a.total_episodios > 0 ? a.episodio_actual / a.total_episodios : 0;
-          const pctB = b.total_episodios > 0 ? b.episodio_actual / b.total_episodios : 0;
-          return orderVal === "asc" ? pctA - pctB : pctB - pctA;
-        } else { // estado
-          const ea = estadoOrder[a.estado] ?? 99;
-          const eb = estadoOrder[b.estado] ?? 99;
-          return orderVal === "asc" ? ea - eb : eb - ea;
-        }
-      });
-      const start = (currentPage - 1) * limit;
-      const paginated = resultado.slice(start, start + limit);
-      renderCards(paginated, q);
-      renderPaginacion(total);
-      renderSubtitle(total);
-    } else {
-      renderCards(resultado, q);
-      renderPaginacion(total);
-      renderSubtitle(total);
-    }
+    renderCards(data, q);
+    renderPaginacion(total);
+    renderSubtitle(total);
   } catch (err) {
     showToast(err.message, "error");
   }
