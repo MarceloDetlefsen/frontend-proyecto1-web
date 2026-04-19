@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Series Tracker</title>
+  <title>MyTracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
@@ -12,19 +12,25 @@
 
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="logo">Series<span>Tracker</span></a>
+      <a href="index.html" class="logo">My<span>Tracker</span></a>
       <nav class="nav">
-        <a href="index.html" class="active">Mis series</a>
-        <a href="crear.html">+ Nueva serie</a>
+        <a href="index.html" class="active">Mi lista</a>
+        <a href="crear.html">+ Nueva entrada</a>
       </nav>
     </div>
   </header>
 
   <main class="main">
 
-    <h1 class="page-title">Mis <em>Series</em></h1>
-    <p class="page-subtitle" id="subtitle">Cargando...</p>
-    <p class="page-description">Tu lista de seguimiento personal. Pensada para series, pero funciona igual de bien para <em>álbumes</em>, libros, películas o lo que se te ocurra.</p>
+    <div class="page-header-row">
+      <p class="page-description">
+        Tu lista de seguimiento personal. Pensada para
+        <em>series</em>, pero funciona igual de bien para
+        <em>álbumes</em>, <em>libros</em>,
+        o lo que se te ocurra.
+      </p>
+      <p class="page-count" id="subtitle">Cargando...</p>
+    </div>
 
     <!-- Toolbar -->
     <div class="toolbar">
@@ -32,13 +38,13 @@
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
         </svg>
-        <input class="search-input" id="search" placeholder="Buscar series..." type="search">
+        <input class="search-input" id="search" placeholder="Buscar..." type="search">
       </div>
 
       <select class="select-input" id="sort">
         <option value="id">Por fecha de adición</option>
         <option value="titulo">Título</option>
-        <option value="episodio_actual">Episodio actual</option>
+        <option value="progreso">Progreso</option>
         <option value="calificacion">Calificación</option>
       </select>
 
@@ -46,8 +52,6 @@
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>
       </select>
-
-      <a href="crear.html" class="btn btn-primary">+ Nueva serie</a>
     </div>
 
     <!-- Grid de cards -->
@@ -62,19 +66,17 @@
   <div class="modal-overlay" id="modal-overlay">
     <div class="modal">
       <div class="modal-header">
-        <h2 class="modal-title">Editar serie</h2>
+        <h2 class="modal-title">Editar</h2>
         <button class="modal-close" id="modal-close">✕</button>
       </div>
       <div class="modal-body">
         <form id="edit-form">
           <input type="hidden" id="edit-id">
-
           <div class="form-group">
             <label class="form-label">Título</label>
-            <input class="form-input" id="edit-titulo" type="text" placeholder="Nombre de la serie">
+            <input class="form-input" id="edit-titulo" type="text" placeholder="Nombre">
             <span class="form-error" id="edit-titulo-error"></span>
           </div>
-
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Episodio actual</label>
@@ -85,7 +87,6 @@
               <input class="form-input" id="edit-total-episodios" type="number" min="0">
             </div>
           </div>
-
           <div class="form-group">
             <label class="form-label">Estado</label>
             <select class="form-select" id="edit-estado">
@@ -94,17 +95,14 @@
               <option value="completada">Completada</option>
             </select>
           </div>
-
           <div class="form-group">
             <label class="form-label">Calificación (1–10)</label>
             <input class="form-input" id="edit-calificacion" type="number" min="1" max="10" step="0.1" placeholder="Opcional">
           </div>
-
           <div class="form-group">
             <label class="form-label">URL de imagen</label>
             <input class="form-input" id="edit-imagen" type="url" placeholder="https://...">
           </div>
-
           <div class="form-actions">
             <button type="button" class="btn btn-ghost" id="modal-cancel">Cancelar</button>
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
@@ -114,7 +112,6 @@
     </div>
   </div>
 
-  <!-- Toast container -->
   <div class="toast-container" id="toast-container"></div>
 
   <script src="js/api.js"></script>

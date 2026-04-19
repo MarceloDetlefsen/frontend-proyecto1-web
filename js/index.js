@@ -1,10 +1,28 @@
-// ── Estado ──
-let currentPage  = 1;
-const limit      = 8;
-let searchTimer  = null;
+// ── Estado persistente ──
+const STORAGE_KEY = "mytracker_prefs";
+
+function loadPrefs() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  } catch { return {}; }
+}
+
+function savePrefs(prefs) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs)); } catch {}
+}
+
+let currentPage = 1;
+const limit = 8;
+let searchTimer = null;
 
 // ── Init ──
 document.addEventListener("DOMContentLoaded", () => {
+  // Restaurar preferencias guardadas
+  const prefs = loadPrefs();
+  if (prefs.sort)  document.getElementById("sort").value  = prefs.sort;
+  if (prefs.order) document.getElementById("order").value = prefs.order;
+  if (prefs.q)     document.getElementById("search").value = prefs.q;
+
   cargarSeries();
   initToolbar();
   initModal();
@@ -12,19 +30,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ── Cargar y renderizar series ──
 async function cargarSeries() {
+  const sortVal  = document.getElementById("sort").value;
+  const orderVal = document.getElementById("order").value;
+  const q        = document.getElementById("search").value.trim();
+
+  // Guardar prefs
+  savePrefs({ sort: sortVal, order: orderVal, q });
+
+  // Si el sort es "progreso", lo manejamos en cliente
+  const isProgresoSort = sortVal === "progreso";
+  const apiSort = isProgresoSort ? "id" : sortVal;
+
   const params = {
     page:  currentPage,
-    limit,
-    q:     document.getElementById("search").value.trim(),
-    sort:  document.getElementById("sort").value,
-    order: document.getElementById("order").value,
+    limit: isProgresoSort ? 999 : limit, // traemos todo si vamos a reordenar en cliente
+    q,
+    sort:  apiSort,
+    order: orderVal,
   };
 
   try {
     const { data, total } = await getSeries(params);
-    renderCards(data, params.q);
-    renderPaginacion(total);
-    renderSubtitle(total);
+
+    let resultado = data;
+
+    if (isProgresoSort) {
+      // Calcular porcentaje y ordenar en cliente
+      resultado = data.slice().sort((a, b) => {
+        const pctA = a.total_episodios > 0 ? a.episodio_actual / a.total_episodios : 0;
+        const pctB = b.total_episodios > 0 ? b.episodio_actual / b.total_episodios : 0;
+        return orderVal === "asc" ? pctA - pctB : pctB - pctA;
+      });
+      // Paginar en cliente
+      const start = (currentPage - 1) * limit;
+      const paginated = resultado.slice(start, start + limit);
+      renderCards(paginated, q);
+      renderPaginacion(total);
+      renderSubtitle(total);
+    } else {
+      renderCards(resultado, q);
+      renderPaginacion(total);
+      renderSubtitle(total);
+    }
   } catch (err) {
     showToast(err.message, "error");
   }
@@ -32,7 +79,9 @@ async function cargarSeries() {
 
 function renderSubtitle(total) {
   document.getElementById("subtitle").textContent =
-    total === 0 ? "No hay nada en la lista todavía." : `${total} elemento${total !== 1 ? "s" : ""} en tu lista`;
+    total === 0
+      ? "Tu lista está vacía."
+      : `${total} elemento${total !== 1 ? "s" : ""} en tu lista`;
 }
 
 // ── Cards ──
@@ -45,8 +94,8 @@ function renderCards(series, query = "") {
       grid.innerHTML = `
         <div class="empty-state">
           <div class="icon">🔍</div>
-          <p>No encontramos nada que coincida con <strong>"${searchingFor}"</strong>.</p>
-          <p style="font-size:0.85rem;margin-top:-0.5rem;margin-bottom:1.5rem">Probá con otro término o revisá el nombre.</p>
+          <p>Nada que coincida con <strong>"${searchingFor}"</strong>.</p>
+          <p style="font-size:0.85rem;margin-top:-0.5rem;margin-bottom:1.5rem">Probá con otro término.</p>
           <a href="crear.html" class="btn btn-primary">+ Agregar nueva entrada</a>
         </div>`;
     } else {
@@ -62,7 +111,6 @@ function renderCards(series, query = "") {
 
   grid.innerHTML = series.map(renderCard).join("");
 
-  // Eventos de cada card
   grid.querySelectorAll(".btn-incrementar").forEach(btn => {
     btn.addEventListener("click", () => handleEpisodio(btn.dataset.id, "incrementar"));
   });
@@ -78,11 +126,11 @@ function renderCards(series, query = "") {
 }
 
 function renderCard(s) {
-  const pct     = s.total_episodios > 0 ? Math.round((s.episodio_actual / s.total_episodios) * 100) : 0;
-  const imagen  = s.imagen
+  const pct    = s.total_episodios > 0 ? Math.round((s.episodio_actual / s.total_episodios) * 100) : 0;
+  const imagen = s.imagen
     ? `<img src="${s.imagen}" alt="${s.titulo}" onerror="this.parentElement.innerHTML='<div class=\\'card-img-placeholder\\'>🎬</div>'">`
     : `<div class="card-img-placeholder">🎬</div>`;
-  const cal     = s.calificacion != null ? `⭐ ${parseFloat(s.calificacion).toFixed(1)}` : "Sin calificar";
+  const cal    = s.calificacion != null ? `⭐ ${parseFloat(s.calificacion).toFixed(1)}` : "Sin calificar";
 
   return `
     <div class="serie-card">
@@ -92,7 +140,6 @@ function renderCard(s) {
       </div>
       <div class="card-body">
         <div class="card-title">${s.titulo}</div>
-
         <div class="progress-section">
           <div class="progress-label">
             <span>Ep. ${s.episodio_actual} / ${s.total_episodios}</span>
@@ -102,16 +149,13 @@ function renderCard(s) {
             <div class="progress-fill" style="width:${pct}%"></div>
           </div>
         </div>
-
         <div class="episodio-controls">
           <button class="btn btn-secondary btn-sm btn-decrementar" data-id="${s.id}">−1</button>
           <span>Episodio actual</span>
           <button class="btn btn-primary btn-sm btn-incrementar" data-id="${s.id}">+1</button>
         </div>
-
         <div class="card-rating">${cal}</div>
       </div>
-
       <div class="card-footer">
         <a href="detalle.html?id=${s.id}" class="btn btn-ghost btn-sm">Ver más</a>
         <button class="btn btn-secondary btn-sm btn-editar" data-id="${s.id}">Editar</button>
@@ -133,10 +177,10 @@ async function handleEpisodio(id, accion) {
 
 // ── Eliminar ──
 async function handleEliminar(id) {
-  if (!confirm("¿Seguro que querés eliminar esta serie?")) return;
+  if (!confirm("¿Seguro que querés eliminar esta entrada?")) return;
   try {
     await deleteSerie(id);
-    showToast("Serie eliminada", "success");
+    showToast("Entrada eliminada", "success");
     await cargarSeries();
   } catch (err) {
     showToast(err.message, "error");
@@ -147,7 +191,6 @@ async function handleEliminar(id) {
 function renderPaginacion(total) {
   const pages = Math.ceil(total / limit);
   const pag   = document.getElementById("pagination");
-
   if (pages <= 1) { pag.innerHTML = ""; return; }
 
   let html = `<button class="page-btn" ${currentPage === 1 ? "disabled" : ""} id="prev">‹</button>`;
@@ -157,7 +200,6 @@ function renderPaginacion(total) {
   html += `<button class="page-btn" ${currentPage === pages ? "disabled" : ""} id="next">›</button>`;
 
   pag.innerHTML = html;
-
   pag.querySelector("#prev")?.addEventListener("click", () => { currentPage--; cargarSeries(); });
   pag.querySelector("#next")?.addEventListener("click", () => { currentPage++; cargarSeries(); });
   pag.querySelectorAll("[data-page]").forEach(btn => {
@@ -165,13 +207,12 @@ function renderPaginacion(total) {
   });
 }
 
-// ── Toolbar: búsqueda y ordenamiento ──
+// ── Toolbar ──
 function initToolbar() {
   document.getElementById("search").addEventListener("input", () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(() => { currentPage = 1; cargarSeries(); }, 400);
   });
-
   document.getElementById("sort").addEventListener("change",  () => { currentPage = 1; cargarSeries(); });
   document.getElementById("order").addEventListener("change", () => { currentPage = 1; cargarSeries(); });
 }
@@ -208,10 +249,8 @@ function cerrarModal() {
 
 async function handleEditSubmit(e) {
   e.preventDefault();
-
   const id  = document.getElementById("edit-id").value;
   const cal = document.getElementById("edit-calificacion").value;
-
   const data = {
     titulo:          document.getElementById("edit-titulo").value.trim(),
     episodio_actual: parseInt(document.getElementById("edit-episodio-actual").value) || 0,
@@ -220,15 +259,13 @@ async function handleEditSubmit(e) {
     calificacion:    cal !== "" ? parseFloat(cal) : null,
     imagen:          document.getElementById("edit-imagen").value.trim() || null,
   };
-
   if (!data.titulo) {
     document.getElementById("edit-titulo-error").textContent = "El título es requerido";
     return;
   }
-
   try {
     await updateSerie(id, data);
-    showToast("Serie actualizada", "success");
+    showToast("Entrada actualizada", "success");
     cerrarModal();
     await cargarSeries();
   } catch (err) {

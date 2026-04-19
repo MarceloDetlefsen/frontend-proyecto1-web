@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 
-/* ── Variables ── */
 :root {
   --orange-50:  #fff4ed;
   --orange-100: #ffe0c2;
@@ -30,7 +29,6 @@
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── Reset mínimo ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -90,34 +88,34 @@ body {
   padding: 2.5rem 2rem;
 }
 
-.page-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: var(--navy-400);
+/* ── Page header row: descripción a la izquierda, count a la derecha ── */
+.page-header-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  width: 100%;
 }
 
-.page-title em { font-style: italic; color: var(--orange-400); }
-
-.page-subtitle {
+.page-description {
   font-size: 0.95rem;
   color: var(--gray-400);
-  margin-bottom: 0.4rem;
-}
-
-/* Descripción debajo del subtitle */
-.page-description {
-  font-size: 0.88rem;
-  color: var(--gray-400);
-  margin-bottom: 2rem;
-  max-width: 560px;
   line-height: 1.55;
+  flex: 1;
 }
 
 .page-description em {
   font-style: italic;
   color: var(--orange-400);
+  font-weight: 500;
+}
+
+.page-count {
+  font-size: 0.88rem;
+  color: var(--gray-400);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* ── Botones ── */
@@ -162,7 +160,7 @@ body {
 
 .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
 
-/* ── Badges de estado — ahora todos en naranja con variaciones ── */
+/* ── Badges de estado ── */
 .estado-badge {
   padding: 0.28rem 0.85rem;
   border-radius: 999px;
@@ -172,26 +170,23 @@ body {
   text-transform: capitalize;
 }
 
-/* Viendo: naranja pleno */
 .estado-viendo {
   background: linear-gradient(135deg, var(--orange-300), var(--orange-500));
   color: #fff;
 }
 
-/* Completada: navy oscuro con acento naranja */
 .estado-completada {
   background: var(--navy-500);
   color: var(--orange-200);
 }
 
-/* Pendiente: naranja muy suave con borde */
 .estado-pendiente {
   background: var(--orange-50);
   color: var(--orange-600);
   border: 1.5px solid var(--orange-200);
 }
 
-/* ── Search input ── */
+/* ── Search ── */
 .search-wrapper { position: relative; }
 
 .search-wrapper svg {
@@ -218,27 +213,6 @@ body {
 
 .search-input:focus { border-color: var(--orange-300); }
 
-/* ── Card demo ── */
-.card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--navy-400);
-}
-
-.progress-bar {
-  height: 8px;
-  background: var(--navy-100);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-fill {
-  height: 100%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--orange-300), var(--orange-500));
-}
-
 /* ── Toolbar ── */
 .toolbar {
   display: flex;
@@ -248,10 +222,10 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Selects más anchos y cómodos */
+/* Selects — padding generoso, ancho mínimo cómodo */
 .select-input {
-  padding: 0.7rem 1.25rem;
-  min-width: 180px;
+  padding: 0.7rem 2rem 0.7rem 1.1rem;
+  min-width: 190px;
   border: 2px solid var(--navy-100);
   border-radius: 999px;
   font-family: 'DM Sans', sans-serif;
@@ -265,6 +239,20 @@ body {
 }
 
 .select-input:focus { border-color: var(--orange-300); }
+
+/* ── Progress ── */
+.progress-bar {
+  height: 8px;
+  background: var(--navy-100);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange-300), var(--orange-500));
+}
 
 /* ── Cards grid ── */
 .cards-grid {
@@ -334,7 +322,13 @@ body {
   gap: 0.7rem;
 }
 
-/* ── Progress ── */
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy-400);
+}
+
 .progress-section { display: flex; flex-direction: column; gap: 0.3rem; }
 
 .progress-label {
@@ -344,7 +338,6 @@ body {
   color: var(--gray-400);
 }
 
-/* ── Episodio controls ── */
 .episodio-controls {
   display: flex;
   align-items: center;
@@ -363,7 +356,6 @@ body {
   color: var(--gray-400);
 }
 
-/* ── Card footer ── */
 .card-footer {
   padding: 0.8rem 1.1rem;
   border-top: 2px solid var(--navy-50);
@@ -429,10 +421,7 @@ body {
   transition: opacity var(--transition);
 }
 
-.modal-overlay.open {
-  opacity: 1;
-  pointer-events: all;
-}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
 
 .modal {
   background: var(--white);
@@ -482,9 +471,8 @@ body {
 
 .modal-body { padding: 1.5rem; }
 
-/* ── Formularios ── */
+/* ── Forms ── */
 .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
-
 .form-label { font-size: 0.85rem; font-weight: 500; color: var(--gray-600); }
 
 .form-input, .form-select {
@@ -506,7 +494,6 @@ body {
 }
 
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
 .form-error { font-size: 0.8rem; color: #e05555; }
 
 .form-actions {
@@ -557,6 +544,17 @@ body {
   margin: 0 auto;
 }
 
+/* ── Crear / página interna: título de página ── */
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--navy-400);
+}
+.page-title em { font-style: italic; color: var(--orange-400); }
+.page-subtitle { font-size: 0.95rem; color: var(--gray-400); margin-bottom: 2rem; }
+
 /* ── Detalle hero ── */
 .detalle-hero {
   display: grid;
@@ -602,11 +600,7 @@ body {
   line-height: 1.2;
 }
 
-.detalle-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
+.detalle-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
 .meta-chip {
   padding: 0.3rem 0.85rem;
@@ -687,11 +681,7 @@ body {
   min-width: 36px;
 }
 
-.rating-item-comment {
-  font-size: 0.9rem;
-  color: var(--gray-600);
-  flex: 1;
-}
+.rating-item-comment { font-size: 0.9rem; color: var(--gray-600); flex: 1; }
 
 .rating-item-right {
   display: flex;
@@ -709,7 +699,7 @@ body {
 /* ── Responsive ── */
 @media (max-width: 640px) {
   .main { padding: 1.5rem 1rem; }
-  .page-title { font-size: 1.7rem; }
+  .page-header-row { flex-direction: column; gap: 0.5rem; }
   .toolbar { flex-direction: column; align-items: stretch; }
   .form-row { grid-template-columns: 1fr; }
   .detalle-hero { grid-template-columns: 1fr; }
