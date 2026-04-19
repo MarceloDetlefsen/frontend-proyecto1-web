@@ -49,9 +49,6 @@ function renderHero(s) {
         <span class="meta-chip">${s.episodio_actual} / ${s.total_episodios} episodios</span>
         ${cal}
       </div>
-      <div style="display:flex;gap:0.75rem;margin-top:auto;flex-wrap:wrap">
-        <a href="index.html" class="btn btn-ghost btn-sm">← Volver</a>
-      </div>
     </div>`;
 }
 

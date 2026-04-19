@@ -22,7 +22,7 @@ async function cargarSeries() {
 
   try {
     const { data, total } = await getSeries(params);
-    renderCards(data);
+    renderCards(data, params.q);
     renderPaginacion(total);
     renderSubtitle(total);
   } catch (err) {
@@ -32,20 +32,31 @@ async function cargarSeries() {
 
 function renderSubtitle(total) {
   document.getElementById("subtitle").textContent =
-    total === 0 ? "No hay series todavía." : `${total} serie${total !== 1 ? "s" : ""} en tu lista`;
+    total === 0 ? "No hay nada en la lista todavía." : `${total} elemento${total !== 1 ? "s" : ""} en tu lista`;
 }
 
 // ── Cards ──
-function renderCards(series) {
+function renderCards(series, query = "") {
   const grid = document.getElementById("cards-grid");
 
   if (series.length === 0) {
-    grid.innerHTML = `
-      <div class="empty-state">
-        <div class="icon">🎬</div>
-        <p>No encontramos ninguna serie.</p>
-        <a href="crear.html" class="btn btn-primary">+ Agregar la primera</a>
-      </div>`;
+    const searchingFor = query.trim();
+    if (searchingFor) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🔍</div>
+          <p>No encontramos nada que coincida con <strong>"${searchingFor}"</strong>.</p>
+          <p style="font-size:0.85rem;margin-top:-0.5rem;margin-bottom:1.5rem">Probá con otro término o revisá el nombre.</p>
+          <a href="crear.html" class="btn btn-primary">+ Agregar nueva entrada</a>
+        </div>`;
+    } else {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="icon">🎬</div>
+          <p>Tu lista está vacía. ¡Empezá a trackear!</p>
+          <a href="crear.html" class="btn btn-primary">+ Agregar la primera</a>
+        </div>`;
+    }
     return;
   }
 
