@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalle — Series Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Series<span>Tracker</span></a>
+      <nav class="nav">
+        <a href="index.html">Mis series</a>
+        <a href="crear.html">+ Nueva serie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <a href="index.html" class="btn btn-ghost btn-sm" style="margin-bottom:1.5rem;display:inline-flex">← Volver</a>
+
+    <!-- Hero de la serie -->
+    <div class="detalle-hero" id="detalle-hero">
+      <div style="color:var(--gray-400);padding:2rem">Cargando...</div>
+    </div>
+
+    <!-- Controles de episodio -->
+    <div class="detalle-controles" id="detalle-controles" style="display:none">
+      <div class="progress-section" style="margin-bottom:1rem">
+        <div class="progress-label">
+          <span id="ep-label">Ep. 0 / 0</span>
+          <span id="ep-pct">0%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="ep-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.75rem;align-items:center">
+        <button class="btn btn-secondary" id="btn-decrementar">− Episodio</button>
+        <button class="btn btn-primary"   id="btn-incrementar">+ Episodio</button>
+      </div>
+    </div>
+
+    <!-- Ratings -->
+    <div class="ratings-section" id="ratings-section" style="display:none">
+      <h2>Calificaciones</h2>
+
+      <div class="rating-summary" id="rating-summary">
+        <div class="rating-big" id="rating-promedio">—</div>
+        <div>
+          <div style="font-size:0.85rem;font-weight:500;color:var(--navy-400)">Promedio</div>
+          <div style="font-size:0.8rem;color:var(--gray-400)" id="rating-total">Sin calificaciones</div>
+        </div>
+      </div>
+
+      <!-- Form nuevo rating -->
+      <form id="rating-form" style="margin-bottom:1.5rem">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Puntuación (1–10)</label>
+            <input class="form-input" id="rating-puntuacion" type="number" min="1" max="10" step="0.1" placeholder="7.5">
+            <span class="form-error" id="rating-error"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Comentario</label>
+            <input class="form-input" id="rating-comentario" type="text" placeholder="Opcional">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-sm">Agregar calificación</button>
+      </form>
+
+      <!-- Lista de ratings -->
+      <div id="ratings-list"></div>
+    </div>
+
+  </main>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/detalle.js"></script>
+</body>
+</html>
