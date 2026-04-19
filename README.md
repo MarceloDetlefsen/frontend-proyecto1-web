@@ -2,6 +2,11 @@
 
 Interfaz web para el tracker personal de series (y lo que quieras trackear). Construida con HTML, CSS y JavaScript vanilla, sin frameworks ni dependencias de build.
 
+## Screenshot
+
+### Pantalla de Inicio
+![Pantalla de Inicio](images/Index.png)
+
 ## Cómo correr el proyecto
 
 ### Requisitos

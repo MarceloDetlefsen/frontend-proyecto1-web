@@ -40,6 +40,10 @@ function renderHero(s) {
     ? `<span class="meta-chip orange">⭐ ${parseFloat(s.calificacion).toFixed(1)}</span>`
     : "";
 
+    const descripcion = s.descripcion
+    ? `<p style="font-size:0.92rem;color:var(--gray-600);line-height:1.6;word-break:break-word;overflow-wrap:break-word">${s.descripcion}</p>`
+    : "";
+
   document.getElementById("detalle-hero").innerHTML = `
     ${poster}
     <div class="detalle-info">
@@ -49,6 +53,7 @@ function renderHero(s) {
         <span class="meta-chip">${s.episodio_actual} / ${s.total_episodios} episodios</span>
         ${cal}
       </div>
+      ${descripcion}
     </div>`;
 }
 

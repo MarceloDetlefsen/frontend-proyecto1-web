@@ -34,8 +34,9 @@ async function handleSubmit(e) {
     return;
   }
 
-  const cal    = document.getElementById("calificacion").value;
-  const imagen = document.getElementById("imagen").value.trim();
+  const cal        = document.getElementById("calificacion").value;
+  const imagen     = document.getElementById("imagen").value.trim();
+  const descripcion = document.getElementById("descripcion").value.trim();
 
   const data = {
     titulo,
@@ -44,6 +45,7 @@ async function handleSubmit(e) {
     estado:          document.getElementById("estado").value,
     calificacion:    cal !== "" ? parseFloat(cal) : null,
     imagen:          imagen !== "" ? imagen : null,
+    descripcion:     descripcion !== "" ? descripcion : null,
   };
 
   const btn = e.target.querySelector("[type=submit]");

@@ -215,6 +215,7 @@ async function abrirModal(id) {
     document.getElementById("edit-estado").value          = s.estado;
     document.getElementById("edit-calificacion").value    = s.calificacion ?? "";
     document.getElementById("edit-imagen").value          = s.imagen ?? "";
+    document.getElementById("edit-descripcion").value     = s.descripcion ?? "";
     document.getElementById("modal-overlay").classList.add("open");
   } catch (err) {
     showToast(err.message, "error");
@@ -237,6 +238,7 @@ async function handleEditSubmit(e) {
     estado:          document.getElementById("edit-estado").value,
     calificacion:    cal !== "" ? parseFloat(cal) : null,
     imagen:          document.getElementById("edit-imagen").value.trim() || null,
+    descripcion:     document.getElementById("edit-descripcion").value.trim() || null,
   };
   if (!data.titulo) {
     document.getElementById("edit-titulo-error").textContent = "El título es requerido";

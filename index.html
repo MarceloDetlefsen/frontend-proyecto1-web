@@ -73,11 +73,13 @@
       <div class="modal-body">
         <form id="edit-form">
           <input type="hidden" id="edit-id">
+          
           <div class="form-group">
             <label class="form-label">Título</label>
             <input class="form-input" id="edit-titulo" type="text" placeholder="Nombre">
             <span class="form-error" id="edit-titulo-error"></span>
           </div>
+
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Episodio actual</label>
@@ -88,6 +90,7 @@
               <input class="form-input" id="edit-total-episodios" type="number" min="0">
             </div>
           </div>
+
           <div class="form-group">
             <label class="form-label">Estado</label>
             <select class="form-select" id="edit-estado">
@@ -96,14 +99,22 @@
               <option value="completada">Completada</option>
             </select>
           </div>
+
           <div class="form-group">
             <label class="form-label">Calificación (1–10)</label>
             <input class="form-input" id="edit-calificacion" type="number" min="1" max="10" step="0.1" placeholder="Opcional">
           </div>
+
           <div class="form-group">
             <label class="form-label">URL de imagen</label>
             <input class="form-input" id="edit-imagen" type="url" placeholder="https://...">
           </div>
+
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-input" id="edit-descripcion" rows="3" placeholder="Sinopsis, notas..." style="resize:vertical"></textarea>
+          </div>
+
           <div class="form-actions">
             <button type="button" class="btn btn-ghost" id="modal-cancel">Cancelar</button>
             <button type="submit" class="btn btn-primary">Guardar cambios</button>
@@ -113,6 +124,7 @@
     </div>
   </div>
 
+  <!-- Toast container -->
   <div class="toast-container" id="toast-container"></div>
 
   <script src="js/api.js"></script>
