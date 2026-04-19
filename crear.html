@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nueva serie — Series Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Series<span>Tracker</span></a>
+      <nav class="nav">
+        <a href="index.html">Mis series</a>
+        <a href="crear.html" class="active">+ Nueva serie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <a href="index.html" class="btn btn-ghost btn-sm" style="margin-bottom:1.5rem;display:inline-flex">← Volver</a>
+
+    <h1 class="page-title">Nueva <em>Serie</em></h1>
+    <p class="page-subtitle">Agregá una serie a tu lista de seguimiento</p>
+
+    <div class="page-card">
+      <form id="crear-form">
+
+        <div class="form-group">
+          <label class="form-label">Título *</label>
+          <input class="form-input" id="titulo" type="text" placeholder="Nombre de la serie">
+          <span class="form-error" id="titulo-error"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Episodio actual</label>
+            <input class="form-input" id="episodio-actual" type="number" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Total de episodios</label>
+            <input class="form-input" id="total-episodios" type="number" min="0" value="0">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select class="form-select" id="estado">
+            <option value="pendiente">Pendiente</option>
+            <option value="viendo">Viendo</option>
+            <option value="completada">Completada</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Calificación (1–10)</label>
+          <input class="form-input" id="calificacion" type="number" min="1" max="10" step="0.1" placeholder="Opcional">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">URL de imagen</label>
+          <input class="form-input" id="imagen" type="url" placeholder="https://...">
+          <div id="imagen-preview" style="margin-top:0.75rem;display:none">
+            <img id="imagen-preview-img" src="" alt="Preview" style="width:100%;max-height:200px;object-fit:cover;border-radius:8px;border:2px solid var(--navy-100)">
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="index.html" class="btn btn-ghost">Cancelar</a>
+          <button type="submit" class="btn btn-primary">Agregar serie</button>
+        </div>
+
+      </form>
+    </div>
+
+  </main>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/crear.js"></script>
+</body>
+</html>
