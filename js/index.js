@@ -37,31 +37,38 @@ async function cargarSeries() {
   // Guardar prefs
   savePrefs({ sort: sortVal, order: orderVal, q });
 
-  // Si el sort es "progreso", lo manejamos en cliente
-  const isProgresoSort = sortVal === "progreso";
-  const apiSort = isProgresoSort ? "id" : sortVal;
+  // "progreso" y "estado" se ordenan en cliente
+  const clientSort = sortVal === "progreso" || sortVal === "estado";
+  const apiSort = clientSort ? "id" : sortVal;
 
   const params = {
     page:  currentPage,
-    limit: isProgresoSort ? 999 : limit, // traemos todo si vamos a reordenar en cliente
+    limit: clientSort ? 999 : limit,
     q,
     sort:  apiSort,
     order: orderVal,
   };
+
+  // Orden de estados para sorting
+  const estadoOrder = { pendiente: 0, viendo: 1, completada: 2 };
 
   try {
     const { data, total } = await getSeries(params);
 
     let resultado = data;
 
-    if (isProgresoSort) {
-      // Calcular porcentaje y ordenar en cliente
+    if (clientSort) {
       resultado = data.slice().sort((a, b) => {
-        const pctA = a.total_episodios > 0 ? a.episodio_actual / a.total_episodios : 0;
-        const pctB = b.total_episodios > 0 ? b.episodio_actual / b.total_episodios : 0;
-        return orderVal === "asc" ? pctA - pctB : pctB - pctA;
+        if (sortVal === "progreso") {
+          const pctA = a.total_episodios > 0 ? a.episodio_actual / a.total_episodios : 0;
+          const pctB = b.total_episodios > 0 ? b.episodio_actual / b.total_episodios : 0;
+          return orderVal === "asc" ? pctA - pctB : pctB - pctA;
+        } else { // estado
+          const ea = estadoOrder[a.estado] ?? 99;
+          const eb = estadoOrder[b.estado] ?? 99;
+          return orderVal === "asc" ? ea - eb : eb - ea;
+        }
       });
-      // Paginar en cliente
       const start = (currentPage - 1) * limit;
       const paginated = resultado.slice(start, start + limit);
       renderCards(paginated, q);

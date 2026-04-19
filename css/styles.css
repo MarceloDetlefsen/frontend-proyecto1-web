@@ -31,48 +31,56 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { overflow-x: hidden; }
+
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
   color: var(--gray-800);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ── Header ── */
 .header {
   background: var(--navy-500);
   border-bottom: 3px solid var(--orange-400);
-  padding: 0 2rem;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: 0 1.5rem;
 }
 
 .header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 70px;
+  height: 56px;
+  gap: 1rem;
+  width: 100%;
 }
 
 .logo {
   font-family: 'Playfair Display', serif;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: var(--white);
   text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .logo span { font-style: italic; color: var(--orange-300); }
 
-.nav { display: flex; gap: 0.5rem; }
+.nav { display: flex; gap: 0.2rem; flex-shrink: 0; }
 
 .nav a {
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 500;
   color: var(--navy-100);
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.75rem;
   border-radius: 999px;
+  white-space: nowrap;
   transition: background var(--transition), color var(--transition);
 }
 
@@ -222,20 +230,24 @@ body {
   margin-bottom: 2rem;
 }
 
-/* Selects — padding generoso, ancho mínimo cómodo */
+/* Selects — custom arrow, appearance:none para que el border-radius funcione */
 .select-input {
-  padding: 0.7rem 2rem 0.7rem 1.1rem;
-  min-width: 190px;
+  padding: 0.68rem 2.6rem 0.68rem 1.1rem;
+  min-width: 175px;
   border: 2px solid var(--navy-100);
   border-radius: 999px;
   font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
-  background: var(--white);
+  background-color: var(--white);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239aa0a8' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
   color: var(--gray-800);
   cursor: pointer;
   outline: none;
   transition: border-color var(--transition);
-  appearance: auto;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .select-input:focus { border-color: var(--orange-300); }
