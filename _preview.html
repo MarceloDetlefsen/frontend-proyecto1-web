@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Preview — Series Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .section { margin-bottom: 2rem; }
+    .section-title {
+      font-size: .75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--gray-400);
+      margin-bottom: .75rem;
+    }
+    .swatches { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .swatch {
+      width: 56px; height: 56px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: flex-end;
+      padding: 4px 6px;
+      font-size: .6rem; font-weight: 500; color: var(--white);
+    }
+    .swatch.light { color: var(--gray-600); }
+    .btn-row  { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
+    .badge-row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+    .card-demo {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 2px solid var(--navy-100);
+      box-shadow: var(--shadow-sm);
+      padding: 1.25rem;
+      max-width: 300px;
+    }
+    .type-display { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--navy-400); }
+    .type-italic  { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-style: italic; color: var(--orange-400); }
+    .type-body    { font-size: .95rem; color: var(--gray-600); line-height: 1.6; }
+    .type-label   { font-size: .8rem; font-weight: 500; color: var(--gray-400); }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">Series<span>Tracker</span></a>
+      <nav class="nav">
+        <a href="#" class="active">Inicio</a>
+        <a href="#">Nueva serie</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <h1 class="page-title">CSS <em>Preview</em></h1>
+    <p class="page-subtitle">Revisá la paleta y componentes antes de arrancar</p>
+
+    <!-- Colores naranja -->
+    <div class="section">
+      <div class="section-title">Paleta naranja</div>
+      <div class="swatches">
+        <div class="swatch light" style="background:var(--orange-50);color:var(--gray-400)">50</div>
+        <div class="swatch light" style="background:var(--orange-100);color:var(--gray-600)">100</div>
+        <div class="swatch"       style="background:var(--orange-200)">200</div>
+        <div class="swatch"       style="background:var(--orange-300)">300</div>
+        <div class="swatch"       style="background:var(--orange-400)">400</div>
+        <div class="swatch"       style="background:var(--orange-500)">500</div>
+        <div class="swatch"       style="background:var(--orange-600)">600</div>
+      </div>
+    </div>
+
+    <!-- Colores azul marino -->
+    <div class="section">
+      <div class="section-title">Paleta azul marino</div>
+      <div class="swatches">
+        <div class="swatch light" style="background:var(--navy-50);color:var(--gray-400)">50</div>
+        <div class="swatch light" style="background:var(--navy-100);color:var(--gray-600)">100</div>
+        <div class="swatch"       style="background:var(--navy-200)">200</div>
+        <div class="swatch"       style="background:var(--navy-300)">300</div>
+        <div class="swatch"       style="background:var(--navy-400)">400</div>
+        <div class="swatch"       style="background:var(--navy-500)">500</div>
+        <div class="swatch"       style="background:var(--navy-600)">600</div>
+      </div>
+    </div>
+
+    <!-- Tipografía -->
+    <div class="section">
+      <div class="section-title">Tipografía</div>
+      <div class="type-display">Playfair Display Bold</div>
+      <div class="type-italic">Playfair Display Italic</div>
+      <div class="type-body">DM Sans regular — texto de cuerpo, descripciones y UI general.</div>
+      <div class="type-label">DM Sans 500 — etiquetas y labels</div>
+    </div>
+
+    <!-- Botones -->
+    <div class="section">
+      <div class="section-title">Botones</div>
+      <div class="btn-row">
+        <button class="btn btn-primary">+ Agregar serie</button>
+        <button class="btn btn-secondary">Editar</button>
+        <button class="btn btn-ghost">Cancelar</button>
+        <button class="btn btn-danger">Eliminar</button>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="section">
+      <div class="section-title">Badges de estado</div>
+      <div class="badge-row">
+        <span class="estado-badge estado-viendo">Viendo</span>
+        <span class="estado-badge estado-completada">Completada</span>
+        <span class="estado-badge estado-pendiente">Pendiente</span>
+      </div>
+    </div>
+
+    <!-- Card demo -->
+    <div class="section">
+      <div class="section-title">Card base + progress bar</div>
+      <div class="card-demo">
+        <div class="card-title" style="margin-bottom:.5rem">Breaking Bad</div>
+        <div style="font-size:.8rem;color:var(--gray-400);display:flex;justify-content:space-between;margin-bottom:.3rem">
+          <span>Episodio 22 / 62</span><span>65%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:65%"></div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.75rem">
+          <button class="btn btn-secondary btn-sm">−1</button>
+          <button class="btn btn-primary btn-sm">+1</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <div class="section">
+      <div class="section-title">Input de búsqueda</div>
+      <div class="search-wrapper" style="max-width:320px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input class="search-input" placeholder="Buscar series...">
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
