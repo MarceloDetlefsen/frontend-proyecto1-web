@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ── Variables ── */
+:root {
+  --orange-50:  #fff4ed;
+  --orange-100: #ffe0c2;
+  --orange-200: #ffbf80;
+  --orange-300: #ff9a3c;
+  --orange-400: #f97316;
+  --orange-500: #e05a00;
+  --orange-600: #b84500;
+
+  --navy-50:  #eef2f8;
+  --navy-100: #c8d5e8;
+  --navy-200: #91aad1;
+  --navy-300: #5a7fb8;
+  --navy-400: #1e3a5f;
+  --navy-500: #152d4a;
+  --navy-600: #0d1e33;
+
+  --cream:    #fdf8f4;
+  --white:    #ffffff;
+  --gray-400: #9aa0a8;
+  --gray-600: #5f6870;
+  --gray-800: #1e2830;
+
+  --shadow-sm: 0 2px 8px rgba(30, 58, 95, 0.08);
+  --radius:    16px;
+  --radius-sm: 8px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset mínimo ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--gray-800);
+  min-height: 100vh;
+}
+
+/* ── Header ── */
+.header {
+  background: var(--navy-500);
+  border-bottom: 3px solid var(--orange-400);
+  padding: 0 2rem;
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.logo span { font-style: italic; color: var(--orange-300); }
+
+.nav { display: flex; gap: 0.5rem; }
+
+.nav a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--navy-100);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  transition: background var(--transition), color var(--transition);
+}
+
+.nav a:hover, .nav a.active {
+  background: rgba(249, 115, 22, 0.2);
+  color: var(--orange-300);
+}
+
+/* ── Main ── */
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+}
+
+.page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--navy-400);
+}
+
+.page-title em { font-style: italic; color: var(--orange-400); }
+
+.page-subtitle {
+  font-size: 0.95rem;
+  color: var(--gray-400);
+  margin-bottom: 2rem;
+}
+
+/* ── Botones ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--orange-300), var(--orange-500));
+  color: var(--white);
+  box-shadow: 0 4px 14px rgba(224, 90, 0, 0.35);
+}
+
+.btn-secondary {
+  background: var(--orange-50);
+  color: var(--orange-500);
+  border: 2px solid var(--orange-100);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--gray-600);
+  border: 2px solid var(--navy-100);
+}
+
+.btn-danger {
+  background: #fff0f0;
+  color: #e05555;
+  border: 2px solid #ffd0d0;
+}
+
+.btn-sm { padding: 0.4rem 0.9rem; font-size: 0.82rem; }
+
+/* ── Badges de estado ── */
+.estado-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.estado-viendo     { background: rgba(249, 115, 22, 0.15); color: #b84500; }
+.estado-completada { background: rgba(30, 58, 95, 0.12);   color: #152d4a; }
+.estado-pendiente  { background: rgba(154, 160, 168, 0.2); color: #5f6870; }
+
+/* ── Search input ── */
+.search-wrapper { position: relative; }
+
+.search-wrapper svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.7rem 1rem 0.7rem 2.8rem;
+  border: 2px solid var(--navy-100);
+  border-radius: 999px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  background: var(--white);
+  color: var(--gray-800);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.search-input:focus { border-color: var(--orange-300); }
+
+/* ── Card demo ── */
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy-400);
+}
+
+.progress-bar {
+  height: 8px;
+  background: var(--navy-100);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange-300), var(--orange-500));
+}
