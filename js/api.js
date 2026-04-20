@@ -1,4 +1,8 @@
-const BASE_URL = "http://localhost:8080";
+// Local
+// const BASE_URL = "http://localhost:8080";
+
+// Producción
+const BASE_URL = "https://backend-proyecto1-web-production.up.railway.app/";
 
 // ── Series ──
 
