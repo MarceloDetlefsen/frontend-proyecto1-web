@@ -1,8 +1,11 @@
 // Local
 // const BASE_URL = "http://localhost:8080";
 
-// Producción
-const BASE_URL = "https://backend-proyecto1-web-production.up.railway.app/";
+// Producción en Railway
+// const BASE_URL = "https://backend-proyecto1-web-production.up.railway.app/";
+
+// Producción en Render
+const BASE_URL = "https://backend-proyecto1-web.onrender.com";
 
 // ── Series ──
 
